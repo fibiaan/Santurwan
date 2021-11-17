@@ -57,10 +57,10 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
             </div>
         </section>
         <section class="vertical-scrolling" style="background-image: url('media/imagen4.jpg'); background-size:cover; background-position:0px">
-            <div class="container align-items-center" style="background-color:#516349; color:#F4EFEC; width:50%; margin-left:25%;">
+            <div class="container align-items-center" style="background-color:#516349; color:#F4EFEC; width:60%; margin-left:17.5%;">
                 <h1>AMENZAS Y RIESGOS</h1>
             </div>
-            <div class="container align-text-center text-start" style="background-color:#F4EFEC; color:#516349; height: 50%; width:65%; margin-left:17.5%;padding-right:5%; padding:2%;">
+            <div class="container align-text-center text-start" style="background-color:#F4EFEC; color:#516349; height: 50%; width:65%; margin-left:17.5%; padding:2%;">
                 <h3><strong> - </strong>Intervención humana por la colonización del páramo (tala de la vegetación, quemas controladas y crecimiento de zonas agrícolas).</h3>
                 <br>
                 <h3><strong> - </strong>Alteración de la función de regulación hídrica por compactación de los suelos producto de la ganadería.</h3>
@@ -106,24 +106,26 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC;">
-                    <h5 class="modal-title text-center">Iniciar Sesion</h5>
+                    <h3 class="modal-title text-center">Iniciar Sesion</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-3" style="background-color: #F4EFEC; color:#516349;">
-                    <form id="login">
-                        <div class="row">
-                            <div class="col">
-                                <label for="NombreUsuario">Nombre</label>
-                                <input name="nickname" id="NombreU" type="text" class="form-control">
+                <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
+                    <div class="container">
+                        <form id="login">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="NombreUsuario">Nickname</label>
+                                    <input name="nickname" id="NombreU" type="text" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="ContraseñaUsuario">Contraseña</label>
-                                <input name="clave" id="ContraseñaU" type="password" class="form-control">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="ContraseñaUsuario">Contraseña</label>
+                                    <input name="clave" id="ContraseñaU" type="password" class="form-control">
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
@@ -137,38 +139,36 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header" style="background-color: #516349; color:#F4EFEC;">
-                    <h5 class="modal-title">Registro</h5>
+                    <h3 class="modal-title">Registro</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
-                    <div class="row">
-                        <div class="col">
-                            <label for="NombreRegistro">Nombre</label>
-                            <input name="NombreRegistro" id="NombreR" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="ContraseñaRegistro">Contraseña</label>
-                            <input name="ContraseñaRegistro" id="ContraseñaR" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="TelefonoRegistro">Telefono</label>
-                            <input name="TelefonoRegistro" id="TelefonoR" type="text" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="CorreoRegistro">Correo Electronico </label>
-                            <input name="CorreoRegistro" id="CorreoR" type="text" class="form-control">
-                        </div>
+                    <div class="container">
+                        <form id="register">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="NombreCompletoRegistro">Nombre Completo</label>
+                                    <input name="NombreCompletoRegistro" id="NombreCompletoR" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="NombreRegistro">Nickname</label>
+                                    <input name="NombreRegistro" id="NombreR" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="ContraseñaRegistro">Contraseña</label>
+                                    <input name="ContraseñaRegistro" id="ContraseñaR" type="text" class="form-control">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal2()">Volver</button>
-                    <button type="button" class="btn btn-lg btn-primary">Registrarse</button>
+                    <button type="button" id="register-button" class="btn btn-lg btn-primary">Registrarse</button>
                 </div>
             </div>
         </div>
@@ -176,17 +176,34 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.min.js'></script>
     <script src="scripts/function.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function() {                
+            var BACK = 'http://127.0.0.1:8000/api/';
             $("#login-button").click(function() {
                 var inputs = $("#login :input");
                 values = {};
                 inputs.each(function() {
                     values[this.name] = $(this).val();
-                }) 
-                let params = {user : values}
+                })
+                let params = {
+                    user: values
+                }
                 console.log(params);
-                var BACK = 'http://127.0.0.1:8000/api/';
-                $.post(BACK + 'loginUser', params, function(data){
+
+                $.post(BACK + 'loginUser', params, function(data) {
+                    console.log(data);
+                });
+            })
+
+            $("#register-button").click(function() {
+                var inputs = $("#register :input");
+                values = {};
+                inputs.each(function() {
+                    values[this.name] = $(this).val();
+                })
+                let params = {
+                    user: values
+                }
+                $.post(BACK + 'createUser', params, function(data) {
                     console.log(data);
                 });
             })
