@@ -243,9 +243,7 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                         showModal3('Usuario no registrado', 'bi bi-exclamation-triangle', 'red')
                     } else {
                         showModal3('Incio de sesion satisfactorio', 'bi bi-exclamation-triangle', 'green')
-                        <?php
-                        header('Location: admin/login.php');
-                        ?>
+                        window.location.href = 'admin/login.php';
                     }
                 });
             })

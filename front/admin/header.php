@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="../node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.css'>
     <title>#</title>
+    <style>
+        .container-fluid{
+            padding: 0px;
+        }
+    </style>
 </head>
 <body>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
+<div class="container-fluid">
+

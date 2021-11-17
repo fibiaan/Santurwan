@@ -18,7 +18,7 @@ require 'header.php';
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="color:#F4EFEC;">
             <ul class="navbar-nav" style="padding-right: 5%;">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color:#F4EFEC;">Vista principal</a>
+                    <a class="nav-link" href="logout.php" style="color:#F4EFEC;">Cerrar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="showModal2()" style="color:#F4EFEC;">Historial</a>
@@ -32,7 +32,7 @@ require 'header.php';
 </header>
 
 <div id="containerPrincipal" style="width:100%; height:50vh; padding:5%; padding-top:1%; padding-bottom:0;"></div>
-<div class="row" style="padding:5%; padding-top:1%; padding-bottom:0;">
+<div class="row" style="width:100%; padding-top:1%; padding-bottom:0;">
     <div class="col">
         <div id="container" style="width:100%; height:40vh; padding:2%;"></div>
     </div>
@@ -48,13 +48,14 @@ require 'header.php';
 
 
 <script>
+    var histori = [];
     var BACK = 'http://127.0.0.1:8000/api/';
     $(document).prop('title', 'Santurwan');
     $(document).ready(function() {
         var user = {
             "id_usuario": 5,
-            "nickname": "tiba",
-            "clave": "tiba",
+            "nickname": "fibianmejia",
+            "clave": "1234",
             "nombre_completo": "tiba",
             "fecha_creacion": "2021-11-17 17:32:36",
             "fecha_ult_modif": "2021-11-17 17:32:36",
@@ -64,7 +65,8 @@ require 'header.php';
             user: user
         }
         $.post(BACK + 'traerLecturas', params, function(data) {
-            console.log(data)
+            console.log(data);
+            histori = data.data;
             var temperatura = [];
             var id = [];
             var uv = [];
@@ -278,6 +280,23 @@ require 'header.php';
     }
 </script>
 <script>
+    function historial(){
+        console.log(histori);
+        var tabla = $("#history-body");
+        var html = '';
+        histori.map((dato)=>{
+            html += '<tr><td>';
+            html += dato.id_sensores + '</td>';
+            html += '<td>' + dato.temperatura + '</td>';
+            html += '<td>' + dato.humedad + '</td>';
+            html += '<td>' + dato.uv + '</td>';
+            html += '<td>' + dato.fecha_creacion + '</td>';
+            html += '<td>' + dato.fecha_ult_modif + '</td>';
+            html += '<td class="text-center" style="cursor:pointer;"> <i class="bi bi-pencil-square"></i>';
+            html += '</td></tr>';
+        });
+        tabla.html(html);
+    }
     $(document).ready(function() {
         var myModal = new bootstrap.Modal(document.getElementById('Modal1'), {
             keyboard: false
@@ -299,6 +318,7 @@ require 'header.php';
 
         window.showModal2 = function() {
             myModal2.show();
+            historial();
         }
 
         window.closeModal2 = function() {
@@ -355,7 +375,7 @@ require 'header.php';
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content" style="border-radius: 25px;">
             <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC; border-top-left-radius:25px; border-top-right-radius:25px">
-                <h3 class="modal-title text-center">Iniciar Sesion</h3>
+                <h3 class="modal-title text-center">Historial de datos</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
@@ -369,13 +389,11 @@ require 'header.php';
                                 <th class="text-center" style="color:#F4EFEC;"> UV</th>
                                 <th class="text-center" style="color:#F4EFEC;"> Fecha de creacion </th>
                                 <th class="text-center" style="color:#F4EFEC;"> Fecha de modificacion </th>
-                                <th class="text-center" style="color:#F4EFEC;"> </th>
+                                <th class="text-center" style="color:#F4EFEC;"> Editar </th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            /*$main_class->getPedidos();*/
-                            ?>
+                        <tbody id="history-body">
+                            
                         </tbody>
                     </table>
                 </div>
