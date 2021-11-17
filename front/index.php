@@ -85,6 +85,10 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                 keyboard: false
             });
 
+            var myModal3 = new bootstrap.Modal(document.getElementById('ModalAlert'), {
+                keyboard: false
+            });
+
             window.showModal = function() {
                 myModal.show();
             }
@@ -100,12 +104,24 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
             window.closeModal2 = function() {
                 myModal2.hide()
             }
+
+            window.showModal3 = function(title, icon, color) {
+                document.getElementById('tituloModal').innerHTML = title;
+                icono = document.getElementById('iconoModal');
+                icono.nameClass = icon;
+                icono.style.color = color
+                myModal3.show();
+            }
+
+            window.closeModal3 = function() {
+                myModal3.hide()
+            }
         });
     </script>
     <div class="modal" id="Modal1" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC;">
+            <div class="modal-content" style="border-radius: 25px;">
+                <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC; border-top-left-radius:25px; border-top-right-radius:25px">
                     <h3 class="modal-title text-center">Iniciar Sesion</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -137,8 +153,8 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
 
     <div class="modal" id="Modal2" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #516349; color:#F4EFEC;">
+            <div class="modal-content" style="border-radius: 25px;">
+                <div class="modal-header" style="background-color: #516349; color:#F4EFEC; border-top-left-radius:25px; border-top-right-radius:25px">
                     <h3 class="modal-title">Registro</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -148,19 +164,19 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                             <div class="row">
                                 <div class="col">
                                     <label for="NombreCompletoRegistro">Nombre Completo</label>
-                                    <input name="NombreCompletoRegistro" id="NombreCompletoR" type="text" class="form-control">
+                                    <input name="nombre_completo" id="NombreCompletoR" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="NombreRegistro">Nickname</label>
-                                    <input name="NombreRegistro" id="NombreR" type="text" class="form-control">
+                                    <input name="nickname" id="NombreR" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="ContraseñaRegistro">Contraseña</label>
-                                    <input name="ContraseñaRegistro" id="ContraseñaR" type="text" class="form-control">
+                                    <input name="clave" id="ContraseñaR" type="password" class="form-control">
                                 </div>
                             </div>
                         </form>
@@ -173,10 +189,43 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
             </div>
         </div>
     </div>
+
+    <div class="modal" id="ModalAlert" tabindex="-1">
+        <div class="modal-dialog  modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 25px;">
+                <div class="modal-body" style="border-top-left-radius:25px; border-top-right-radius:25px">
+                    <div class="container-fluid mb-3 mt-3">
+                        <div class="row justify-content-center">
+                            <div class="col-3 text-center">
+                                <i class="bi bi-exclamation-triangle" id="iconoModal" style="font-size:70px;"></i>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <h4 class="modal-title" id="tituloModal" style="color: black">Modal title</h5>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-10 text-center">
+                                <p id="contenidoModal hidden">
+
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mt-3">
+                            <div class="col-3 text-center">
+                                <button type="button" class="btn btn-primary" onclick="closeModal3()">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.min.js'></script>
     <script src="scripts/function.js"></script>
     <script>
-        $(document).ready(function() {                
+        $(document).ready(function() {
             var BACK = 'http://127.0.0.1:8000/api/';
             $("#login-button").click(function() {
                 var inputs = $("#login :input");
@@ -190,7 +239,14 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                 console.log(params);
 
                 $.post(BACK + 'loginUser', params, function(data) {
-                    console.log(data);
+                    if (data['status'] == false) {
+                        showModal3('Usuario no registrado', 'bi bi-exclamation-triangle', 'red')
+                    } else {
+                        showModal3('Incio de sesion satisfactorio', 'bi bi-exclamation-triangle', 'green')
+                        <?php
+                        header('Location: admin/login.php');
+                        ?>
+                    }
                 });
             })
 
@@ -203,9 +259,15 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                 let params = {
                     user: values
                 }
-                $.post(BACK + 'createUser', params, function(data) {
-                    console.log(data);
-                });
+                if (values['nickname'] == "" || values['nombre_completo'] == "" || values['clave'] == "") {
+                    showModal3('Debe llenar todos los campos', 'bi bi-exclamation-triangle', 'red')
+                } else {
+                    console.log(params)
+                    $.post(BACK + 'createUser', params, function(data) {
+                        showModal3('Usuario creado satisfactoriamente', 'bi bi-exclamation-triangle', 'green')
+                        console.log(data);
+                    });
+                }
             })
         })
     </script>

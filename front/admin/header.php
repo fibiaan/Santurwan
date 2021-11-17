@@ -10,6 +10,5 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.css'>
     <title>#</title>
 </head>
-
 <body>
     <script src="../node_modules/jquery/dist/jquery.js"></script>
