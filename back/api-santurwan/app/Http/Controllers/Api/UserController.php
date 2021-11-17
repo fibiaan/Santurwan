@@ -12,9 +12,9 @@ class UserController extends Controller
 {
     /**
      * Api que crea nuevos usuarios
-     * 
+     *
      * Recibe para parametros @user el array con datos del usuario
-     * 
+     *
      */
     public function createUser (Request $request)
     {
@@ -42,9 +42,9 @@ class UserController extends Controller
     }
     /**
      * Api para editar usuarios por id_usuario
-     * 
+     *
      * Recibe para parametros @user el array con datos del usuario
-     * 
+     *
      */
     public function editarUser (Request $request)
     {
@@ -68,9 +68,9 @@ class UserController extends Controller
     }
     /**
      * Api para inactivar usuarios por id_usuario
-     * 
+     *
      * Recibe para parametros @user el array con datos del usuario
-     * 
+     *
      */
     public function inactiveUser (Request $request)
     {
@@ -90,14 +90,14 @@ class UserController extends Controller
         } else {
             $finalresult = response()->json(['status' => false,'message' =>'No se enviaron datos ']);
         }
-        
+
         return $finalresult;
     }
     /**
      * Api para validar Login de usuario
-     * 
+     *
      * Recibe para parametros @user el array con datos del usuario
-     * 
+     *
      */
     public function loginUser (Request $request)
     {
@@ -118,7 +118,7 @@ class UserController extends Controller
         } else {
             $finalresult = response()->json(['status' => false,'message' =>'No se enviaron datos ']);
         }
-        
+
         return $finalresult;
     }
 }

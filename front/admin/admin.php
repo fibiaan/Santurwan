@@ -2,8 +2,9 @@
 
 require 'header.php';
 
-?>
 
+?>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Navbar</a>
@@ -28,8 +29,39 @@ require 'header.php';
         </div>
     </nav>
 </header>
+
+<div id="container" style="width:100%; height:400px;"></div>
+
 <script>
     $(document).prop('title', 'Santurwan');
+    $(document).ready(function() {
+        var jane = [2, 3, 5];
+        var x = ['ayer', 'hoy', 'mañana']
+        draw1(jane, x);
+    })
+
+    function draw1(jane, x){
+        const chart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Fruit Consumption'
+            },
+            xAxis: {
+                categories: x
+            },
+            yAxis: {
+                title: {
+                    text: 'Fruit eaten'
+                }
+            },
+            series: [{
+                name: 'Jane',
+                data: jane
+            }]
+        });
+    }
 </script>
 
 

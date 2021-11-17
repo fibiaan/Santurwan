@@ -110,22 +110,24 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-3" style="background-color: #F4EFEC; color:#516349;">
-                    <div class="row">
-                        <div class="col">
-                            <label for="NombreUsuario">Nombre</label>
-                            <input name="NombreUsuario" id="NombreU" type="text" class="form-control">
+                    <form id="login">
+                        <div class="row">
+                            <div class="col">
+                                <label for="NombreUsuario">Nombre</label>
+                                <input name="nickname" id="NombreU" type="text" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="ContraseñaUsuario">Contraseña</label>
-                            <input name="ContraseñaUsuario" id="ContraseñaU" type="text" class="form-control">
+                        <div class="row">
+                            <div class="col">
+                                <label for="ContraseñaUsuario">Contraseña</label>
+                                <input name="clave" id="ContraseñaU" type="password" class="form-control">
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
-                    <button type="button" class="btn btn-lg btn-primary">Iniciar Sesion</button>
+                    <button type="button" id="login-button" class="btn btn-lg btn-primary">Iniciar Sesion</button>
                 </div>
             </div>
         </div>
@@ -173,6 +175,23 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
     </div>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.6/jquery.fullPage.min.js'></script>
     <script src="scripts/function.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#login-button").click(function() {
+                var inputs = $("#login :input");
+                values = {};
+                inputs.each(function() {
+                    values[this.name] = $(this).val();
+                }) 
+                let params = {user : values}
+                console.log(params);
+                var BACK = 'http://127.0.0.1:8000/api/';
+                $.post(BACK + 'loginUser', params, function(data){
+                    console.log(data);
+                });
+            })
+        })
+    </script>
 </body>
 
 </html>
