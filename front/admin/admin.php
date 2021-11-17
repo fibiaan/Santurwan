@@ -10,21 +10,21 @@ require 'header.php';
 <script src="https://code.highcharts.com/modules/export-data.js"></script>
 <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#" style="padding-left:5%;">SANTURBAN STATS</a>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#516349;">
+        <a class="navbar-brand" href="#" style="padding-left:5%;color:#F4EFEC;">SANTURBAN STATS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="color:#F4EFEC;">
             <ul class="navbar-nav" style="padding-right: 5%;">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Vista principal</a>
+                    <a class="nav-link" href="#" style="color:#F4EFEC;">Vista principal</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Historial</a>
+                    <a class="nav-link" href="#" onclick="showModal2()" style="color:#F4EFEC;">Historial</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showModal()">Editar Usuario</a>
+                    <a class="nav-link" href="#" onclick="showModal()" style="color:#F4EFEC;">Editar Usuario</a>
                 </li>
             </ul>
         </div>
@@ -282,7 +282,9 @@ require 'header.php';
         var myModal = new bootstrap.Modal(document.getElementById('Modal1'), {
             keyboard: false
         });
-
+        var myModal2 = new bootstrap.Modal(document.getElementById('ModalHistory'), {
+            keyboard: false
+        });
         var myModal3 = new bootstrap.Modal(document.getElementById('ModalAlert'), {
             keyboard: false
         });
@@ -293,6 +295,14 @@ require 'header.php';
 
         window.closeModal = function() {
             myModal.hide()
+        }
+
+        window.showModal2 = function() {
+            myModal2.show();
+        }
+
+        window.closeModal2 = function() {
+            myModal2.hide()
         }
 
         window.showModal3 = function(title, icon, color) {
@@ -336,6 +346,42 @@ require 'header.php';
             <div class="modal-footer">
                 <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
                 <button type="button" id="login-button" class="btn btn-lg btn-primary">Iniciar Sesion</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ModalHistory" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 25px;">
+            <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC; border-top-left-radius:25px; border-top-right-radius:25px">
+                <h3 class="modal-title text-center">Iniciar Sesion</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
+                <div class="table-responsive" id="table-ordered3">
+                    <table id="table_list3" class="table table-bordered table-hover datatable" style="width:99%;">
+                        <thead>
+                            <tr style="background-color: #516349;">
+                                <th class="text-center" style="color:#F4EFEC;"> # </th>
+                                <th class="text-center" style="color:#F4EFEC;"> Temperatura </th>
+                                <th class="text-center" style="color:#F4EFEC;"> Humedad</th>
+                                <th class="text-center" style="color:#F4EFEC;"> UV</th>
+                                <th class="text-center" style="color:#F4EFEC;"> Fecha de creacion </th>
+                                <th class="text-center" style="color:#F4EFEC;"> Fecha de modificacion </th>
+                                <th class="text-center" style="color:#F4EFEC;"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            /*$main_class->getPedidos();*/
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
             </div>
         </div>
     </div>
