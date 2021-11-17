@@ -105,11 +105,11 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
     <div class="modal" id="Modal1" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header" style="background-color: #516349; color:#F4EFEC;">
-                    <h5 class="modal-title">Iniciar Sesion</h5>
+                <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC;">
+                    <h5 class="modal-title text-center">Iniciar Sesion</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
+                <div class="modal-body p-3" style="background-color: #F4EFEC; color:#516349;">
                     <div class="row">
                         <div class="col">
                             <label for="NombreUsuario">Nombre</label>
@@ -124,8 +124,8 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
-                    <button type="button" class="btn btn-primary">Iniciar Sesion</button>
+                    <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
+                    <button type="button" class="btn btn-lg btn-primary">Iniciar Sesion</button>
                 </div>
             </div>
         </div>
@@ -165,8 +165,8 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeModal2()">Volver</button>
-                    <button type="button" class="btn btn-primary">Registrarse</button>
+                    <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal2()">Volver</button>
+                    <button type="button" class="btn btn-lg btn-primary">Registrarse</button>
                 </div>
             </div>
         </div>
