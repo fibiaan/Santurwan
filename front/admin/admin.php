@@ -48,24 +48,22 @@ require 'header.php';
 
 
 <script>
+    var nickname = localStorage.getItem("nickname")
+    var clave = localStorage.getItem("clave")
+    var id_usuario = localStorage.getItem("id_usuario")
+
     var histori = [];
     var BACK = 'http://127.0.0.1:8000/api/';
     $(document).prop('title', 'Santurwan');
     $(document).ready(function() {
         var user = {
-            "id_usuario": 5,
-            "nickname": "fibianmejia",
-            "clave": "1234",
-            "nombre_completo": "tiba",
-            "fecha_creacion": "2021-11-17 17:32:36",
-            "fecha_ult_modif": "2021-11-17 17:32:36",
-            "activo": 1
+            "nickname": nickname,
+            "clave": clave,
         }
         let params = {
             user: user
         }
         $.post(BACK + 'traerLecturas', params, function(data) {
-            console.log(data);
             histori = data.data;
             var temperatura = [];
             var id = [];
@@ -77,10 +75,6 @@ require 'header.php';
                 uv[i] = Number(data.data[i].uv);
                 humedad[i] = Number(data.data[i].humedad);
             }
-            console.log(temperatura)
-            console.log(id)
-            console.log(humedad)
-            console.log(uv)
             draw(temperatura, humedad, uv, id)
             draw1(temperatura, id);
             draw2(uv, id);
@@ -280,11 +274,10 @@ require 'header.php';
     }
 </script>
 <script>
-    function historial(){
-        console.log(histori);
+    function historial() {
         var tabla = $("#history-body");
         var html = '';
-        histori.map((dato)=>{
+        histori.map((dato) => {
             html += '<tr><td>';
             html += dato.id_sensores + '</td>';
             html += '<td>' + dato.temperatura + '</td>';
@@ -292,7 +285,7 @@ require 'header.php';
             html += '<td>' + dato.uv + '</td>';
             html += '<td>' + dato.fecha_creacion + '</td>';
             html += '<td>' + dato.fecha_ult_modif + '</td>';
-            html += '<td class="text-center" style="cursor:pointer;"> <i class="bi bi-pencil-square"></i>';
+            html += '<td class="text-center"><button class="btn bg-trasnparent btn-sm" onclick = "showModal4(' + dato.id_sensores + ',' + dato.temperatura + ',' + dato.humedad + ',' + dato.uv + ');"> <i class="bi bi-pencil-square"></i></button>';
             html += '</td></tr>';
         });
         tabla.html(html);
@@ -307,8 +300,13 @@ require 'header.php';
         var myModal3 = new bootstrap.Modal(document.getElementById('ModalAlert'), {
             keyboard: false
         });
+        var myModal4 = new bootstrap.Modal(document.getElementById('ModalEditar'), {
+            keyboard: false
+        });
 
         window.showModal = function() {
+            $("#NombreU").val(nickname)
+            $("#ContraseñaU").val(clave)
             myModal.show();
         }
 
@@ -316,9 +314,23 @@ require 'header.php';
             myModal.hide()
         }
 
-        window.showModal2 = function() {
-            myModal2.show();
+        updateHistory = function(){
+            $("#history-body").html("")
+            var user = {
+                "nickname": nickname,
+                "clave": clave,
+            }
+            let params = {
+                user: user
+            }
+            $.post(BACK + 'traerLecturas', params, function(data) {
+                histori = data.data;
+            });
             historial();
+        }
+        window.showModal2 = function() {
+            updateHistory();
+            myModal2.show();
         }
 
         window.closeModal2 = function() {
@@ -336,6 +348,63 @@ require 'header.php';
         window.closeModal3 = function() {
             myModal3.hide()
         }
+
+        window.showModal4 = function(id_sensor, temperatura, humedad, uv) {
+            $("#Temperatura").val(temperatura)
+            $("#Humedad").val(humedad)
+            $("#UV").val(uv)
+            $("#Id_sensores").val(id_sensor)
+            myModal2.hide();
+            myModal4.show();
+        }
+
+        window.closeModal4 = function() {
+            updateHistory();
+            myModal4.hide()
+        }
+
+        $("#saveU-button").click(function() {
+
+            $("#idU").val(id_usuario)
+            var inputs = $("#editUser :input");
+            values = {};
+            inputs.each(function() {
+                values[this.name] = $(this).val();
+            })
+            let params = {
+                user: values
+            }
+            if (values['nickname'] == "" || values['clave'] == "") {
+                showModal3('Debe llenar todos los campos', 'bi bi-exclamation-triangle', 'red')
+            } else {
+                $.post(BACK + 'editarUser', params, function(data) {
+                    showModal3('Usuario actualizado satisfactoriamente', 'bi bi-exclamation-triangle', 'green')
+                    nickname = values["nickname"];
+                    clave = values["clave"];
+                });
+            }
+        })
+        $("#save-button").click(function() {
+            var inputs = $("#editLectura :input");
+            values = {};
+            inputs.each(function() {
+                values[this.name] = $(this).val();
+            })
+            let params = {
+                lectura: values
+            }
+            console.log(params)
+            if (values['temperatura'] == "" || values['humedad'] == "" || values['uv'] == "") {
+                showModal3('Debe llenar todos los campos', 'bi bi-exclamation-triangle', 'red')
+            } else {
+                $.post(BACK + 'editarLectura', params, function(data) {
+                    showModal3('Lectura actualizado satisfactoriamente', 'bi bi-exclamation-triangle', 'green')
+                    $("#history-body").html("")
+                    historial()
+                    console.log(data);
+                });
+            }
+        })
     });
 </script>
 <div class="modal" id="Modal1" tabindex="-1">
@@ -347,11 +416,12 @@ require 'header.php';
             </div>
             <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
                 <div class="container">
-                    <form id="login">
+                    <form id="editUser">
                         <div class="row">
                             <div class="col">
                                 <label for="NombreUsuario">Nickname</label>
                                 <input name="nickname" id="NombreU" type="text" class="form-control">
+                                <input name="id_usuario" id="idU" type="text" class="form-control" hidden>
                             </div>
                         </div>
                         <div class="row">
@@ -365,7 +435,47 @@ require 'header.php';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal()">Volver</button>
-                <button type="button" id="login-button" class="btn btn-lg btn-primary">Iniciar Sesion</button>
+                <button type="button" id="saveU-button" class="btn btn-lg btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ModalEditar" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 25px;">
+            <div class="modal-header text-center" style="background-color: #516349; color:#F4EFEC; border-top-left-radius:25px; border-top-right-radius:25px">
+                <h3 class="modal-title text-center">Editar lectura</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #F4EFEC; color:#516349;">
+                <div class="container">
+                    <form id="editLectura">
+                        <div class="row">
+                            <div class="col">
+                                <label for="Temperatura">Temperatura</label>
+                                <input name="temperatura" id="Temperatura" type="number" class="form-control">
+                                <input name="id_sensores" id="Id_sensores" type="text" class="form-control" hidden>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="Humedad">Humedad</label>
+                                <input name="humedad" id="Humedad" type="number" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="UV">UV</label>
+                                <input name="uv" id="UV" type="number" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-lg btn-secondary" data-bs-dismiss="modal" onclick="closeModal4()">Volver</button>
+                <button type="button" id="save-button" class="btn btn-lg btn-primary">Guardar</button>
             </div>
         </div>
     </div>
@@ -393,7 +503,7 @@ require 'header.php';
                             </tr>
                         </thead>
                         <tbody id="history-body">
-                            
+
                         </tbody>
                     </table>
                 </div>

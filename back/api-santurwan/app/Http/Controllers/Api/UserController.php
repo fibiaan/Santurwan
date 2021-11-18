@@ -53,7 +53,7 @@ class UserController extends Controller
         if ($user) {
             $editarUsuario = DB::table('usuario')->where('id_usuario', $user['id_usuario'])->update([
                 'clave' => $user['clave'],
-                'nombre_completo' => $user['nombre_completo'],
+                'nickname' => $user['nickname'],
                 'fecha_ult_modif' => now()
             ]);
             if ($editarUsuario) {

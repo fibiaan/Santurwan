@@ -116,6 +116,8 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
             window.closeModal3 = function() {
                 myModal3.hide()
             }
+            
+
         });
     </script>
     <div class="modal" id="Modal1" tabindex="-1">
@@ -237,12 +239,14 @@ if (isset($_SESSION['logged']) && $_SESSION['logged']) {
                     user: values
                 }
                 console.log(params);
-
                 $.post(BACK + 'loginUser', params, function(data) {
                     if (data['status'] == false) {
                         showModal3('Usuario no registrado', 'bi bi-exclamation-triangle', 'red')
                     } else {
                         showModal3('Incio de sesion satisfactorio', 'bi bi-exclamation-triangle', 'green')
+                        localStorage.setItem("nickname", data.data['nickname']);
+                        localStorage.setItem("clave", data.data['clave']);
+                        localStorage.setItem("id_usuario", data.data['id_usuario']);
                         window.location.href = 'admin/login.php';
                     }
                 });
